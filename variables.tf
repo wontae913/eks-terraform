@@ -1,16 +1,10 @@
 ###############################################################################
 # Basic Configuration
 ###############################################################################
-variable "company" {
-  description = "Company abbreviation"
-  type        = string
-  default     = "hhi"
-}
-
 variable "project" {
   description = "Project name"
   type        = string
-  default     = "empos"
+  default     = "eks-test"
 }
 
 variable "environment" {

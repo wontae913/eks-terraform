@@ -1,6 +1,6 @@
 # terraform init -backend-config=environments/dev/backend.hcl
 
-bucket       = "hhi-empos-dev-an2-s3-tfstate"
+bucket       = "my-tfstate-bucket" # 본인 S3 버킷으로 교체
 key          = "eks/dev/terraform.tfstate"
 region       = "ap-northeast-2"
 encrypt      = true

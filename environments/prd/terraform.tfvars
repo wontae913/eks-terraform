@@ -1,5 +1,4 @@
-company     = "hhi"
-project     = "empos"
+project     = "eks-test"
 environment = "prd"
 region      = "ap-northeast-2"
 
