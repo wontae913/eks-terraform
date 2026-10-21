@@ -47,7 +47,7 @@ variable "private_subnet_ids" {
 variable "cluster_version" {
   description = "Kubernetes version"
   type        = string
-  default     = "1.33"
+  default     = "1.36"
 }
 
 variable "support_type" {

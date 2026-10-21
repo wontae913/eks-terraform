@@ -11,7 +11,7 @@ private_subnet_ids = ["subnet-aaaaaaaaaaaaaaaaa", "subnet-bbbbbbbbbbbbbbbbb"]
 ###############################################################################
 # Cluster
 ###############################################################################
-cluster_version               = "1.33"
+cluster_version               = "1.36"
 endpoint_public_access        = false
 endpoint_public_access_cidrs  = []
 endpoint_private_access_cidrs = ["10.0.0.0/16"]
