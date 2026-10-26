@@ -13,6 +13,11 @@ variable "cluster_version" {
   type        = string
 }
 
+variable "node_group_names" {
+  description = "Managed node group names; after-compute add-ons (coredns, ebs-csi) wait for these"
+  type        = map(string)
+}
+
 variable "addon_versions" {
   description = "Pinned add-on versions (add-on name → version). Unlisted add-ons use the latest compatible version"
   type        = map(string)

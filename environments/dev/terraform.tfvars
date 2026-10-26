@@ -3,10 +3,25 @@ environment = "dev"
 region      = "ap-northeast-2"
 
 ###############################################################################
-# Network (실제 값으로 교체)
+# Network
+# create_vpc = true  : VPC/서브넷/NAT 신규 생성
+# create_vpc = false : 기존 VPC 사용 → vpc_id, private_subnet_ids 지정
 ###############################################################################
-vpc_id             = "vpc-xxxxxxxxxxxxxxxxx"
-private_subnet_ids = ["subnet-aaaaaaaaaaaaaaaaa", "subnet-bbbbbbbbbbbbbbbbb"]
+create_vpc         = true
+vpc_cidr           = "10.0.0.0/16"
+azs                = ["ap-northeast-2a", "ap-northeast-2c"]
+single_nat_gateway = true
+
+# vpc_id             = "vpc-xxxxxxxxxxxxxxxxx"
+# private_subnet_ids = ["subnet-aaaaaaaaaaaaaaaaa", "subnet-bbbbbbbbbbbbbbbbb"]
+
+###############################################################################
+# Bastion (public 서브넷, 기본은 SSM 접속만 / inbound 없음)
+###############################################################################
+enable_bastion            = true
+bastion_instance_type     = "t3.micro"
+bastion_key_name          = null
+bastion_ssh_allowed_cidrs = []
 
 ###############################################################################
 # Cluster

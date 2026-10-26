@@ -1,4 +1,40 @@
 ###############################################################################
+# Network Outputs
+###############################################################################
+output "vpc_id" {
+  description = "VPC ID used by the cluster"
+  value       = local.vpc_id
+}
+
+output "private_subnet_ids" {
+  description = "Private subnet IDs used by the cluster"
+  value       = local.private_subnet_ids
+}
+
+output "public_subnet_ids" {
+  description = "Public subnet IDs (create_vpc = true only)"
+  value       = var.create_vpc ? module.vpc[0].public_subnet_ids : []
+}
+
+output "nat_public_ips" {
+  description = "NAT gateway public IPs (create_vpc = true only)"
+  value       = var.create_vpc ? module.vpc[0].nat_public_ips : []
+}
+
+###############################################################################
+# Bastion Outputs
+###############################################################################
+output "bastion_instance_id" {
+  description = "Bastion instance ID"
+  value       = try(module.bastion[0].instance_id, null)
+}
+
+output "bastion_ssm_command" {
+  description = "Command to open a Session Manager shell on the bastion"
+  value       = try("aws ssm start-session --region ${var.region} --target ${module.bastion[0].instance_id}", null)
+}
+
+###############################################################################
 # Cluster Outputs
 ###############################################################################
 output "cluster_name" {

@@ -26,19 +26,77 @@ variable "region" {
 ###############################################################################
 # Network
 ###############################################################################
-variable "vpc_id" {
-  description = "VPC ID where the cluster is deployed"
+variable "create_vpc" {
+  description = "Create a new VPC for the cluster (false = use vpc_id / private_subnet_ids)"
+  type        = bool
+  default     = true
+}
+
+variable "vpc_cidr" {
+  description = "CIDR block for the new VPC (create_vpc = true)"
   type        = string
+  default     = "10.0.0.0/16"
+}
+
+variable "azs" {
+  description = "Availability zones for the new VPC (create_vpc = true)"
+  type        = list(string)
+  default     = ["ap-northeast-2a", "ap-northeast-2c"]
+}
+
+variable "single_nat_gateway" {
+  description = "Use one shared NAT gateway instead of one per AZ (create_vpc = true)"
+  type        = bool
+  default     = false
+}
+
+variable "vpc_id" {
+  description = "Existing VPC ID (create_vpc = false)"
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.create_vpc || var.vpc_id != null
+    error_message = "vpc_id is required when create_vpc = false."
+  }
 }
 
 variable "private_subnet_ids" {
-  description = "Private subnet IDs for control plane ENIs and worker nodes (at least 2 AZs)"
+  description = "Existing private subnet IDs for control plane ENIs and worker nodes (create_vpc = false, at least 2 AZs)"
   type        = list(string)
+  default     = []
 
   validation {
-    condition     = length(var.private_subnet_ids) >= 2
+    condition     = var.create_vpc || length(var.private_subnet_ids) >= 2
     error_message = "EKS requires subnets in at least 2 availability zones."
   }
+}
+
+###############################################################################
+# Bastion
+###############################################################################
+variable "enable_bastion" {
+  description = "Create a bastion host in a public subnet (create_vpc = true only)"
+  type        = bool
+  default     = true
+}
+
+variable "bastion_instance_type" {
+  description = "Bastion instance type"
+  type        = string
+  default     = "t3.micro"
+}
+
+variable "bastion_key_name" {
+  description = "EC2 key pair name for bastion SSH (null = SSM Session Manager only)"
+  type        = string
+  default     = null
+}
+
+variable "bastion_ssh_allowed_cidrs" {
+  description = "CIDR blocks allowed to SSH into the bastion (empty = no inbound)"
+  type        = list(string)
+  default     = []
 }
 
 ###############################################################################
